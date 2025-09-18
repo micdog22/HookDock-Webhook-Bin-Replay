@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HookDock</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body>
+<header><h3>HookDock</h3><nav><a href="/docs">Docs</a></nav></header>
+<div class="container">
+  <div class="card">
+    <h3>Criar Bin</h3>
+    <form class="row" method="post" action="/bins">
+      <div><label class="small">Nome</label><input name="name" placeholder="ex.: mp-webhook-dev"></div>
+      <div><label class="small">ADMIN_TOKEN</label><input name="token" placeholder="se configurado"></div>
+      <div><button>Criar</button></div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Bins</h3>
+    {% if bins %}
+    <table><thead><tr><th>ID</th><th>Nome</th><th>Ingest</th><th>Eventos</th><th>Ações</th></tr></thead><tbody>
+      {% for b in bins %}
+      <tr>
+        <td><code>{{ b.id }}</code></td>
+        <td>{{ b.name or '—' }}</td>
+        <td><a href="/bins/{{ b.id }}">/i/{{ b.id }}</a></td>
+        <td>{{ b.events_count }}</td>
+        <td>
+          <form method="post" action="/bins/{{ b.id }}/delete" style="display:inline">
+            <input type="hidden" name="token"><button>Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody></table>
+    {% else %}<div class="small">Nenhum bin.</div>{% endif %}
+  </div>
+</div>
+</body></html>

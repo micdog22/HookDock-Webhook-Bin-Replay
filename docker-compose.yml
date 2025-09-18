@@ -1,0 +1,7 @@
+services:
+  hookdock:
+    build: .
+    env_file: .env
+    ports:
+      - "9000:9000"
+    restart: unless-stopped

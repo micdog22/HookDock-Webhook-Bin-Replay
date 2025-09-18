@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HookDock — Bin {{ bin.id }}</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body>
+<header><a href="/">← Voltar</a><div>HookDock — Bin <code>{{ bin.id }}</code></div><nav><a href="/docs">Docs</a></nav></header>
+<div class="container">
+  <div class="card">
+    <div class="small">Envie requests para: <code>/i/{{ bin.id }}</code></div>
+    <form method="get" class="row">
+      <div><label class="small">Busca</label><input name="q" value="{{ q or '' }}" placeholder="texto em headers/body"></div>
+      <div><button>Filtrar</button></div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Eventos</h3>
+    {% if events %}
+      {% for e in events %}
+      <details>
+        <summary>#{{ e.id }} — {{ e.method }} {{ e.path }} — {{ e.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</summary>
+        <div class="small">IP: {{ e.ip or '—' }} | Query: {{ e.query or {} }}</div>
+        <h4>Headers</h4><pre>{{ e.headers | tojson(indent=2) }}</pre>
+        <h4>Body</h4><pre>{{ e.body or '' }}</pre>
+        <form method="post" action="/replay/{{ e.id }}" class="row" style="grid-template-columns:1fr auto">
+          <div><label class="small">Target URL</label><input name="target_url" placeholder="https://example.tld/callback"></div>
+          <div><button>Replay</button></div>
+        </form>
+        {% if e.last_replay_status %}<div class="small">Replay status: {{ e.last_replay_status }} — {{ e.last_replay_at }}</div>{% endif %}
+      </details>
+      {% endfor %}
+    {% else %}<div class="small">Nenhum evento...</div>{% endif %}
+  </div>
+</div>
+</body></html>
