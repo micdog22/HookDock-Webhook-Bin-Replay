@@ -1,4 +1,4 @@
-# HookDock — Webhook Bin + Replay (FastAPI + SQLite)
+# HookDock - Webhook Bin + Replay (FastAPI + SQLite)
 
 HookDock é um mini RequestBin self‑hosted para capturar, inspecionar e reexecutar webhooks.
 Recursos: criação de bins, coleta de qualquer método HTTP, painel com detalhes e **replay** para uma URL alvo.
